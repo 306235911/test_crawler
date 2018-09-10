@@ -16,5 +16,5 @@ class TutorialSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        for i in response.xpath(".title-link").re(r'.+?chinese-news.+|.+?world-.+?|.+?business-.+?'):
+        for i in response.css(".title-link").re(r'.+?chinese-news.+|.+?world-.+?|.+?business-.+?'):
             print(i)
