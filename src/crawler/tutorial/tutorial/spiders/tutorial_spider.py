@@ -28,6 +28,6 @@ class TutorialSpider(scrapy.Spider):
         loader = ItemLoader(item=NewsContext(), response=response)
         loader._add_value("url", response.url)
         loader.add_css("title", '.story-body h1::text')
-        loader._add_value("content", "".join(response.css('div[property=articleBody] p::text').extract(default="")))
+        loader._add_value("content", "".join(response.css('div[property=articleBody] p::text').extract()))
         loader.add_value("date", time.time())
         return loader.load_item()
