@@ -26,14 +26,14 @@ class TutorialSpider(scrapy.Spider):
             break
 
     def parse_detail(self, response):
-        news = NewsContext(url=response.url, title=response.css('.story-body h1::text').extract(),
-                           content="".join(response.css('div[property=articleBody] p::text').extract()))
-        print(dict(news))
-        return news
-        # loader = ItemLoader(item=NewsContext(), response=response)
-        # loader._add_value("url", response.url)
-        # loader.add_css("title", '.story-body h1::text')
-        # loader._add_value("content", "".join(response.css('div[property=articleBody] p::text').extract()))
-        # loader.add_value("date", int(time.time()))
-        # print(dict(json.dumps(loader.load_item())))
-        # return loader.load_item()
+        # news = NewsContext(url=response.url, title=response.css('.story-body h1::text').extract(),
+        #                    content="".join(response.css('div[property=articleBody] p::text').extract()))
+        # print(dict(news))
+        # return news
+        loader = ItemLoader(item=NewsContext(), response=response)
+        loader._add_value("url", response.url)
+        loader.add_css("title", '.story-body h1::text')
+        loader._add_value("content", "".join(response.css('div[property=articleBody] p::text').extract()))
+        loader.add_value("date", int(time.time()))
+        print(json.dumps(dict(loader.load_item())))
+        return loader.load_item()
