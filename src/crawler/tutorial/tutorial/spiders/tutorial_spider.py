@@ -16,7 +16,7 @@ class TutorialSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        for detail_link in response.css(".title-link::attr(href)").re(r'.+?chinese-news.+|.+?world-.+?|.+?business-.+?'):
+        for detail_link in response.css(".title-link::attr(href)").re(r'.+?chinese-news.+|.+?world-.+|.+?business-.+'):
             yield response.follow(detail_link, self.parse_detail)
 
     def parse_detail(self, response):
