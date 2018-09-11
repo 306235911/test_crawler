@@ -1,4 +1,4 @@
-if [[ `pwd` == *'test_crawler' ]]; then
+if [[ `pwd` == *'test_crawler/bin' ]]; then
     cd ..
 fi
 
