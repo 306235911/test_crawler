@@ -3,8 +3,9 @@
 # Created by weixiong
 
 import scrapy
+from scrapy.loader import ItemLoader
 
-from src.crawler.tutorial.tutorial.items import NewsContext
+from ..items import NewsContext
 
 
 class TutorialSpider(scrapy.Spider):
@@ -23,10 +24,8 @@ class TutorialSpider(scrapy.Spider):
             break
 
     def parse_detail(self, response):
-        def extract_with_css(query):
-            return response.css(query).extract_first(default="").strip()
-
-        news = NewsContext(url=response.url, title=extract_with_css('.story-body h1::text'), content="".join(response.css('div[property=articleBody] p::text').extract(default="")))
-        yield {
-            news
-        }
+        loader = ItemLoader(item=NewsContext(), response=response)
+        loader._add_value("url", response.url)
+        loader.add_css("title", '.story-body h1::text')
+        loader._add_value("".join(response.css('div[property=articleBody] p::text').extract(default="")))
+        return loader.load_item()
