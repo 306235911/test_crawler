@@ -18,7 +18,7 @@ class TutorialPipeline(object):
         # todo:从配置读取
         try:
             topic = "test"
-
+            item = json.dumps(dict(item))
             self.producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'))
             self.producer.send(topic, item)
         except Exception as e:
