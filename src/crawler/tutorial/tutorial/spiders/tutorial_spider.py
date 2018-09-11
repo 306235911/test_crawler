@@ -31,5 +31,5 @@ class TutorialSpider(scrapy.Spider):
         loader.add_css("title", '.story-body h1::text')
         loader._add_value("content", "".join(response.css('div[property=articleBody] p::text').extract()))
         loader.add_value("date", int(time.time()))
-        print(json.dumps(loader.load_item()))
+        print(dict(json.dumps(loader.load_item())))
         return loader.load_item()
