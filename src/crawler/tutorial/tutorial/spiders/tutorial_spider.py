@@ -29,5 +29,5 @@ class TutorialSpider(scrapy.Spider):
         loader._add_value("url", response.url)
         loader.add_css("title", '.story-body h1::text')
         loader._add_value("content", "".join(response.css('div[property=articleBody] p::text').extract()))
-        loader.add_value("date", time.time())
-        return loader.load_item()
+        loader.add_value("date", int(time.time()))
+        return bytes(loader.load_item())
