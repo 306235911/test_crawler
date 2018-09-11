@@ -20,10 +20,11 @@ class TutorialSpider(scrapy.Spider):
             yield response.follow(detail_link, self.parse_detail)
 
     def parse_detail(self, response):
-        def extract_with_css(query):
-            return response.css(query).extract_first().strip()
-
-        yield {
-            'title': extract_with_css('.story-body h1'),
-            'text': extract_with_css('div[property=articleBody]'),
-        }
+        print(response.url)
+        # def extract_with_css(query):
+        #     return response.css(query).extract_first().strip()
+        #
+        # yield {
+        #     'title': extract_with_css('.story-body h1'),
+        #     'text': extract_with_css('div[property=articleBody]'),
+        # }
