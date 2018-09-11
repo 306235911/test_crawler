@@ -4,6 +4,8 @@
 
 import scrapy
 
+from src.crawler.tutorial.tutorial.items import NewsContext
+
 
 class TutorialSpider(scrapy.Spider):
     name = "tutorial"
@@ -22,10 +24,9 @@ class TutorialSpider(scrapy.Spider):
 
     def parse_detail(self, response):
         def extract_with_css(query):
-            return response.css(query).extract_first().strip()
+            return response.css(query).extract_first(default="").strip()
 
+        news = NewsContext(url=response.url, title=extract_with_css('.story-body h1::text'), content="".join(response.css('div[property=articleBody] p::text').extract(default="")))
         yield {
-            'url': response.url,
-            'title': extract_with_css('.story-body h1::text'),
-            'text': "".join(response.css('div[property=articleBody] p::text').extract()),
+            news
         }

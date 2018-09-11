@@ -9,3 +9,19 @@
 class TutorialPipeline(object):
     def process_item(self, item, spider):
         return item
+
+    def open_spider(self, spider):
+        """
+        called when the spider is opened.
+        :param spider:
+        :return:
+        """
+        pass
+
+    def close_spider(self, spider):
+        """
+        called when the spider is closed.
+        :param spider:
+        :return:
+        """
+        pass
