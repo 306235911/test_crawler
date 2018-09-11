@@ -16,9 +16,13 @@ class TutorialPipeline(object):
 
     def process_item(self, item, spider):
         # todo:从配置读取
-        topic = "test"
-        self.producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'))
-        self.producer.send(topic, item)
+        try:
+            topic = "test"
+            self.producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+            self.producer.send(topic, item)
+        except Exception as e:
+            print(e)
+            self.producer.close()
         return item
 
     def open_spider(self, spider):
@@ -27,7 +31,7 @@ class TutorialPipeline(object):
         :param spider:
         :return:
         """
-        self.producer = KafkaProducer(bootstrap_servers='localhost:9002')
+        self.producer = KafkaProducer(bootstrap_servers='localhost:9092')
 
     def close_spider(self, spider):
         """
@@ -35,5 +39,5 @@ class TutorialPipeline(object):
         :param spider:
         :return:
         """
-        self.producer.close()
-        pass
+        if self.producer:
+            self.producer.close()
