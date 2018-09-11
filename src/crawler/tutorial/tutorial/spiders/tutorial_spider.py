@@ -27,7 +27,7 @@ class TutorialSpider(scrapy.Spider):
 
     def parse_detail(self, response):
         news = NewsContext(url=response.url, title=response.css('.story-body h1::text').extract(),
-                           content="".join(response.css('div[property=articleBody] p::text').extract(default="")))
+                           content="".join(response.css('div[property=articleBody] p::text').extract()))
         print(dict(news))
         return news
         # loader = ItemLoader(item=NewsContext(), response=response)
