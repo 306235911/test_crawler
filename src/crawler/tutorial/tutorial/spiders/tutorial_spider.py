@@ -26,6 +26,6 @@ class TutorialSpider(scrapy.Spider):
 
         yield {
             'url': response.url,
-            'title': extract_with_css('.story-body h1'),
-            'text': extract_with_css('div[property=articleBody]::text'),
+            'title': extract_with_css('.story-body h1::text'),
+            'text': extract_with_css('div[property=articleBody]'),
         }
