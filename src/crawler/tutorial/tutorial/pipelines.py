@@ -21,6 +21,7 @@ class TutorialPipeline(object):
             self.producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'))
             self.producer.send(topic, item)
         except Exception as e:
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             print(e)
             self.producer.close()
         return item
