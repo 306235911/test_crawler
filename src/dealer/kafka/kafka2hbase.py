@@ -40,15 +40,16 @@ def consumer():
     # consumer.seek_to_beginning(tp)
 
     consumer.seek(tp, int(kafka_offset))
-    for msg in consumer:
-        print(msg.topic)
-        print(msg.partition)
-        print(msg.offset)
-        print(msg.key)
-        print(msg.value)
-        if msg.offset == lastOffset - 1:
-            redis.set(kafka_offset_key, lastOffset)
-            break
+    if int(kafka_offset_key) < int(lastOffset):
+        for msg in consumer:
+            print(msg.topic)
+            print(msg.partition)
+            print(msg.offset)
+            print(msg.key)
+            print(msg.value)
+            if msg.offset == lastOffset - 1:
+                redis.set(kafka_offset_key, lastOffset-1)
+                break
 
 
 consumer()
