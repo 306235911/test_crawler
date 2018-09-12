@@ -7,6 +7,12 @@ import json
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 from kafka import KafkaProducer
+from redis import Redis
+import hashlib
+
+# todo:从配置读
+redis = Redis(host="localhost", port=6379,
+              db=1)
 
 
 class TutorialPipeline(object):
@@ -15,6 +21,20 @@ class TutorialPipeline(object):
         self.producer = None
 
     def process_item(self, item, spider):
+
+        # 去重
+        domain = item["domain"]
+        md5 = hashlib.md5()
+        md5.update(domain)
+        md5_domain = md5.hexdigest()
+        unique_prefix = "unique:url:"
+        if redis.sismember(unique_prefix+md5_domain, item["url"]):
+            # todo:log
+            print("重复的url")
+            return
+        redis.sadd(unique_prefix+md5_domain, item['url'])
+
+        # 写入kafka
         # todo:从配置读取
         try:
             topic = "test"
@@ -32,6 +52,7 @@ class TutorialPipeline(object):
         :param spider:
         :return:
         """
+        # 连接kafka
         self.producer = KafkaProducer(bootstrap_servers='localhost:9092')
 
     def close_spider(self, spider):

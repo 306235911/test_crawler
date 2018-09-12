@@ -12,6 +12,7 @@ from ..items import NewsContext
 
 class TutorialSpider(scrapy.Spider):
     name = "tutorial"
+    task_domain = "www.bbc.com"
 
     def start_requests(self):
         urls = [
@@ -23,7 +24,6 @@ class TutorialSpider(scrapy.Spider):
     def parse(self, response):
         for detail_link in response.css(".title-link::attr(href)").re(r'.+?chinese-news.+|.+?world-.+|.+?business-.+'):
             yield response.follow(detail_link, self.parse_detail)
-            break
 
     def parse_detail(self, response):
         loader = ItemLoader(item=NewsContext(), response=response)
@@ -31,5 +31,6 @@ class TutorialSpider(scrapy.Spider):
         loader.add_css("title", '.story-body h1::text')
         loader._add_value("content", "".join(response.css('div[property=articleBody] p::text').extract()))
         loader.add_value("date", int(time.time()))
+        loader.add_value("domain", self.task_domain)
         print(json.dumps(dict(loader.load_item())))
         return loader.load_item()
