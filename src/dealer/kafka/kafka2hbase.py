@@ -37,9 +37,9 @@ def consumer():
     # consumer.assignment()
 
     # 从最旧的数据开始消费
-    consumer.seek_to_beginning(tp)
+    # consumer.seek_to_beginning(tp)
 
-    # consumer.seek(tp)
+    consumer.seek(tp, int(kafka_offset_key))
     for msg in consumer:
         print(msg.topic)
         print(msg.partition)
