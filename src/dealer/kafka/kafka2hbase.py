@@ -40,7 +40,7 @@ def consumer():
     # consumer.seek_to_beginning(tp)
 
     consumer.seek(tp, int(kafka_offset))
-    if int(kafka_offset_key) < int(lastOffset):
+    if int(kafka_offset) < int(lastOffset):
         for msg in consumer:
             print(msg.topic)
             print(msg.partition)
