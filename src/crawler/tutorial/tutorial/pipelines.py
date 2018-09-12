@@ -23,7 +23,7 @@ class TutorialPipeline(object):
     def process_item(self, item, spider):
 
         # 去重
-        domain = item["domain"]
+        domain = item["domain"][0]
         md5 = hashlib.md5()
         md5.update(domain)
         md5_domain = md5.hexdigest()
