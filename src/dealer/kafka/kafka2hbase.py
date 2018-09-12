@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Created by weixiong
-import json
 
 from kafka import KafkaConsumer, TopicPartition
+from redis import Redis
 
+redis = Redis(host="localhost", port=6379,
+              db=1)
 
 def consumer():
     # 获取数据的kafka topic
@@ -22,12 +24,22 @@ def consumer():
 
     # 在后面设置topic
     consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers)
-    tp = TopicPartition(kafka_topic, 0)
+
+    # todo:从redis/mysql中读取offset
+    kafka_offset_key = "kafka:offset"
+    kafka_offset = redis.get(kafka_offset_key)
+    tp = TopicPartition(kafka_topic, int(kafka_offset))
     consumer.assign([tp])
     consumer.seek_to_end(tp)
     lastOffset = consumer.position(tp)
-    consumer.assignment()
-    # consumer.seek_to_beginning(tp)
+
+    # 若要从最新的消息消费kafka 则调用 assignment 方法
+    # consumer.assignment()
+
+    # 从最旧的数据开始消费
+    consumer.seek_to_beginning(tp)
+
+    # consumer.seek(tp)
     for msg in consumer:
         print(msg.topic)
         print(msg.partition)
@@ -35,6 +47,8 @@ def consumer():
         print(msg.key)
         print(msg.value)
         if msg.offset == lastOffset - 1:
+            redis.set(kafka_offset_key, lastOffset)
             break
+
 
 consumer()
