@@ -26,7 +26,8 @@ def consumer():
     consumer.assign([tp])
     consumer.seek_to_end(tp)
     lastOffset = consumer.position(tp)
-    consumer.seek_to_beginning(tp)
+    consumer.assignment()
+    # consumer.seek_to_beginning(tp)
     for msg in consumer:
         print(msg.topic)
         print(msg.partition)
