@@ -25,7 +25,7 @@ class TutorialPipeline(object):
         # 去重
         domain = item["domain"][0]
         md5 = hashlib.md5()
-        md5.update(domain)
+        md5.update(domain.encoded())
         md5_domain = md5.hexdigest()
         unique_prefix = "unique:url:"
         if redis.sismember(unique_prefix+md5_domain, item["url"]):
