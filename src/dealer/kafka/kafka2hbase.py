@@ -28,7 +28,7 @@ def consumer():
     # todo:从redis/mysql中读取offset
     kafka_offset_key = "kafka:offset"
     kafka_offset = redis.get(kafka_offset_key)
-    tp = TopicPartition(kafka_topic, int(kafka_offset))
+    tp = TopicPartition(kafka_topic, 0)
     consumer.assign([tp])
     consumer.seek_to_end(tp)
     lastOffset = consumer.position(tp)
@@ -39,7 +39,7 @@ def consumer():
     # 从最旧的数据开始消费
     # consumer.seek_to_beginning(tp)
 
-    consumer.seek(tp, int(kafka_offset_key))
+    consumer.seek(tp, int(kafka_offset))
     for msg in consumer:
         print(msg.topic)
         print(msg.partition)
