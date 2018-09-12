@@ -16,7 +16,7 @@ def consumer():
     # value_deserializer = lambda v: json.dumps(v)
     # kafka读取数据时最小的返回数据量
     # fetch_min_bytes = 1
-    consumer = KafkaConsumer(kafka_topic, group_id=group_id, bootstrap_servers=bootstrap_servers)
+    consumer = KafkaConsumer(kafka_topic, bootstrap_servers=bootstrap_servers)
     for msg in consumer:
         print(msg.topic)
         print(msg.partition)
