@@ -48,7 +48,7 @@ def consumer():
             print(msg.key)
             print(msg.value)
             if msg.offset == lastOffset - 1:
-                redis.set(kafka_offset_key, lastOffset-1)
+                redis.set(kafka_offset_key, lastOffset)
                 break
 
 
