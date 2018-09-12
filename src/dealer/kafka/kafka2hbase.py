@@ -17,7 +17,11 @@ def consumer():
     # value_deserializer = lambda v: json.dumps(v)
     # kafka读取数据时最小的返回数据量
     # fetch_min_bytes = 1
-    consumer = KafkaConsumer(kafka_topic, bootstrap_servers=bootstrap_servers)
+    # 一般用法，一开始指定topic
+    # consumer = KafkaConsumer(kafka_topic, bootstrap_servers=bootstrap_servers)
+
+    # 在后面设置topic
+    consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers)
     tp = TopicPartition(kafka_topic, 0)
     consumer.assign([tp])
     consumer.seek_to_end(tp)
