@@ -21,3 +21,4 @@ def consumer():
     for msg in consumer:
         print(msg)
 
+consumer()
