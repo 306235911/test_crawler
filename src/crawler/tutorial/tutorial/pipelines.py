@@ -27,11 +27,11 @@ class TutorialPipeline(object):
         md5_domain = hashlib.md5(domain.encode()).hexdigest()
         md5_url = hashlib.md5(item["url"][0].encode()).hexdigest()
         unique_prefix = "unique:url:"
-        if redis.sismember(unique_prefix+md5_domain, item["url"]):
+        if redis.sismember(unique_prefix+md5_domain, item["url"][0]):
             # todo:log
             print("重复的url")
             return
-        redis.sadd(unique_prefix+md5_domain, item['url'])
+        redis.sadd(unique_prefix+md5_domain, item['url'][0])
         item["id"] = md5_url
 
         # 写入kafka
