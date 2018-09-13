@@ -19,22 +19,26 @@ def toHbase(datas):
 
     try:
         for jdata in datas:
-            url = jdata["url"][0]
-            title = jdata["title"][0]
-            content = jdata["content"][0]
-            date = jdata["date"][0]
-            domain = jdata["domain"][0]
-            data_id = jdata["id"]
-            cf1 = {"url": url,
-                   "title": title,
-                   "content": content}
-            cf2 = {"date": date}
-            cf3 = {"domain": domain}
-            print(cf3)
-            table.put(data_id,
-                      {"cf1:": json.dumps(cf1),
-                       "cf2:": json.dumps(cf2),
-                       "cf3:": json.dumps(cf3)})
+            try:
+                url = jdata["url"][0]
+                title = jdata["title"][0]
+                content = jdata["content"][0]
+                date = jdata["date"][0]
+                domain = jdata["domain"][0]
+                data_id = jdata["id"]
+                cf1 = {"url": url,
+                       "title": title,
+                       "content": content}
+                cf2 = {"date": date}
+                cf3 = {"domain": domain}
+                print(cf3)
+                table.put(data_id,
+                          {"cf1:": json.dumps(cf1),
+                           "cf2:": json.dumps(cf2),
+                           "cf3:": json.dumps(cf3)})
+            except Exception as e:
+                print(e)
+                print(jdata)
     finally:
         connection.close()
 
