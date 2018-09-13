@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Created by weixiong
+import json
 
 from kafka import KafkaConsumer, TopicPartition
 from redis import Redis
@@ -55,12 +56,14 @@ def consumer():
             print(msg.topic)
             print(msg.partition)
             print(msg.offset)
-            print(msg.key)
-            print(msg.value)
+            # print(msg.value)
+            parseData(msg.value)
+            break
             if msg.offset == lastOffset - 1:
                 redis.set(kafka_offset_key, lastOffset)
                 break
 
-
+def parseData(value):
+    print(json.dumps(value.decode('utf-8')))
 
 consumer()
