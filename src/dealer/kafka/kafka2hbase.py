@@ -56,9 +56,7 @@ def consumer():
             print(msg.topic)
             print(msg.partition)
             print(msg.offset)
-            # print(msg.value)
             parseData(msg.value)
-            break
             if msg.offset == lastOffset - 1:
                 redis.set(kafka_offset_key, lastOffset)
                 break
