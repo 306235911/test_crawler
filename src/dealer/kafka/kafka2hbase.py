@@ -18,18 +18,21 @@ def toHbase(datas):
     table = connection.table('testtable')
 
     for jdata in datas:
-        url = jdata["url"]
-        title = jdata["title"]
-        content = jdata["content"]
-        date = jdata["date"]
-        domain = jdata["domain"]
+        url = jdata["url"][0]
+        title = jdata["title"][0]
+        content = jdata["content"][0]
+        date = jdata["date"][0]
+        domain = jdata["domain"][0]
         data_id = jdata["id"]
+        cf1 = {"url": url,
+               "title": title,
+               "content": content}
+        cf2 = {"date": date}
+        cf3 = {"domain": domain}
         table.put(data_id,
-                  {"url": url,
-                   "title": title,
-                   "content": content,
-                   "date": date,
-                   "domain": domain})
+                  {"cf1:": cf1,
+                   "cf2:": cf2,
+                   "cf3:": cf3})
 
 
 def consumer():
