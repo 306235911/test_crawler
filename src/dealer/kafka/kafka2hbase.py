@@ -3,20 +3,33 @@
 # Created by weixiong
 import json
 
+import happybase
 from kafka import KafkaConsumer, TopicPartition
 from redis import Redis
-import happybase
 
 redis = Redis(host="localhost", port=6379,
               db=1)
 
 
-def toHbase():
+def toHbase(datas):
     connection = happybase.Connection('localhost', autoconnect=False)
     connection.open()
     # todo:从配置读取
     table = connection.table('testtable')
-    table.put("row1", {"cf1:": "1"})
+
+    for jdata in datas:
+        url = jdata["url"]
+        title = jdata["title"]
+        content = jdata["content"]
+        date = jdata["date"]
+        domain = jdata["domain"]
+        data_id = jdata["id"]
+        table.put(data_id,
+                  {"url": url,
+                   "title": title,
+                   "content": content,
+                   "date": date,
+                   "domain": domain})
 
 
 def consumer():
@@ -32,6 +45,8 @@ def consumer():
     # fetch_min_bytes = 1
     # 一般用法，一开始指定topic
     # consumer = KafkaConsumer(kafka_topic, bootstrap_servers=bootstrap_servers)
+    # 缓存的数据量大小
+    cache_data = 10
 
     # 在后面设置topic
     consumer = KafkaConsumer(bootstrap_servers=bootstrap_servers)
@@ -52,17 +67,26 @@ def consumer():
 
     consumer.seek(tp, int(kafka_offset))
     if int(kafka_offset) < int(lastOffset):
+        data_list = []
         for msg in consumer:
             print(msg.topic)
             print(msg.partition)
             print(msg.offset)
-            parseData(msg.value)
+            data_list.append(parseData(msg.value))
+
+            if len(data_list) > cache_data:
+                toHbase(data_list)
+                data_list = []
             if msg.offset == lastOffset - 1:
+                if len(data_list) > 0:
+                    toHbase(data_list)
                 redis.set(kafka_offset_key, lastOffset)
                 break
 
+
 def parseData(value):
-    # print(json.loads(json.loads(value.decode(encoding='utf-8'))))
-    print(json.loads(value.decode(encoding='utf-8')))
+    jdata = json.loads(value.decode(encoding='utf-8'))
+    return jdata
+
 
 consumer()
