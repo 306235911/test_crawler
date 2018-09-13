@@ -4,9 +4,19 @@
 
 from kafka import KafkaConsumer, TopicPartition
 from redis import Redis
+import happybase
 
 redis = Redis(host="localhost", port=6379,
               db=1)
+
+
+def toHbase():
+    connection = happybase.Connection('localhost', autoconnect=False)
+    connection.open()
+    # todo:从配置读取
+    table = connection.table('testtable')
+    table.put("row1", {"cf1:": "1"})
+
 
 def consumer():
     # 获取数据的kafka topic
@@ -50,6 +60,7 @@ def consumer():
             if msg.offset == lastOffset - 1:
                 redis.set(kafka_offset_key, lastOffset)
                 break
+
 
 
 consumer()
