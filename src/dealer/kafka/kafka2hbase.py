@@ -32,9 +32,9 @@ def toHbase(datas):
             cf3 = {"domain": domain}
             print(cf3)
             table.put(data_id,
-                      {"cf1:": cf1,
-                       "cf2:": cf2,
-                       "cf3:": cf3})
+                      {"cf1:": json.dumps(cf1),
+                       "cf2:": json.dumps(cf2),
+                       "cf3:": json.dumps(cf3)})
     finally:
         connection.close()
 
