@@ -82,6 +82,8 @@ def consumer():
                     toHbase(data_list)
                 redis.set(kafka_offset_key, lastOffset)
                 break
+    else:
+        print("no new data")
 
 
 def parseData(value):
