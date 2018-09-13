@@ -38,7 +38,7 @@ class TutorialPipeline(object):
         # todo:从配置读取
         try:
             topic = "test"
-            item = json.dumps(dict(item))
+            item = dict(item)
             # 指定了用来序列化消息记录的类，如果有key的话还可以指定一个用来序列化key的类(方法?)key_serializer
             self.producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'))
             self.producer.send(topic, item)

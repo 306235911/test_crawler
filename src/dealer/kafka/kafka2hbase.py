@@ -64,6 +64,6 @@ def consumer():
                 break
 
 def parseData(value):
-    print(json.dumps(value.decode('utf-8'))["domain"])
+    print(json.loads(json.loads(value.decode(encoding='utf-8'))))
 
 consumer()
