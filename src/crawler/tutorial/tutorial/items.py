@@ -16,3 +16,4 @@ class NewsContext(scrapy.Item):
     content = scrapy.Field()
     date = scrapy.Field()
     domain = scrapy.Field()
+    id = scrapy.Field()
