@@ -3,7 +3,8 @@ if [[ `pwd` == *'test_crawler/bin' ]]; then
 fi
 
 git pull
-cd src/crawler/tutorial
+source .venv/bin/activate
+cd src && python setup.py install
 #scrapy crawl tutorial
 #rm -rf .venv && virtualenv --no-site-packages --python=python3.7 .venv
 #source .venv/bin/activate && pip install -r requirements.txt
