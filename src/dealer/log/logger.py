@@ -18,7 +18,7 @@ def get_logger(name):
     logger.setLevel(logging.DEBUG)
     logger.info('use default logger level: DEBUG')
     logger.propagate = False
-    if name == "heartbeat.py":
+    if name == "TutorialSpider":
         logger.info("get heartbeat.py handler")
         file_handler = TimedRotatingFileHandler(LOGGER_FILE_PATH, when="MIDNIGHT", interval=1, backupCount=5)
     else:
