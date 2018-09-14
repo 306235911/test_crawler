@@ -7,7 +7,7 @@ import scrapy
 import time
 from scrapy.loader import ItemLoader
 
-from src.dealer.log.logger import get_logger
+from dealer.log.logger import get_logger
 from ..items import NewsContext
 
 logger = get_logger("TutorialSpider")

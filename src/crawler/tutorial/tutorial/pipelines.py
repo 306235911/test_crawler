@@ -11,7 +11,7 @@ from redis import Redis
 import hashlib
 
 # todo:从配置读
-from src.dealer.log.logger import get_logger
+from dealer.log.logger import get_logger
 
 redis = Redis(host="localhost", port=6379,
               db=1)

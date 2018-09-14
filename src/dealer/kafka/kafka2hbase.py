@@ -7,7 +7,7 @@ import happybase
 from kafka import KafkaConsumer, TopicPartition
 from redis import Redis
 
-from src.dealer.log.logger import get_logger
+from dealer.log.logger import get_logger
 
 redis = Redis(host="localhost", port=6379,
               db=1)
