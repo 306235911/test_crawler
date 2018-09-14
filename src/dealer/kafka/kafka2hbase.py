@@ -7,8 +7,11 @@ import happybase
 from kafka import KafkaConsumer, TopicPartition
 from redis import Redis
 
+from src.dealer.log.logger import get_logger
+
 redis = Redis(host="localhost", port=6379,
               db=1)
+logger = get_logger("toHbase.py")
 
 
 def toHbase(datas):
@@ -31,14 +34,12 @@ def toHbase(datas):
                        "content": content}
                 cf2 = {"date": date}
                 cf3 = {"domain": domain}
-                print(cf3)
                 table.put(data_id,
                           {"cf1:": json.dumps(cf1),
                            "cf2:": json.dumps(cf2),
                            "cf3:": json.dumps(cf3)})
             except Exception as e:
-                print(e)
-                print(jdata)
+                logger.error(e)
     finally:
         connection.close()
 
@@ -80,9 +81,9 @@ def consumer():
     if int(kafka_offset) < int(lastOffset):
         data_list = []
         for msg in consumer:
-            print(msg.topic)
-            print(msg.partition)
-            print(msg.offset)
+            logger.info("message topic: %s" % msg.topic)
+            logger.info("message partition: %s" % msg.partition)
+            logger.info("message offset: %s" % msg.offset)
             data_list.append(parseData(msg.value))
 
             if len(data_list) > cache_data:
@@ -94,7 +95,7 @@ def consumer():
                 redis.set(kafka_offset_key, lastOffset)
                 break
     else:
-        print("no new data")
+        logger.info("no new data")
 
 
 def parseData(value):

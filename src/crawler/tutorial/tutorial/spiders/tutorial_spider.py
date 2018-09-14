@@ -7,8 +7,10 @@ import scrapy
 import time
 from scrapy.loader import ItemLoader
 
+from src.dealer.log.logger import get_logger
 from ..items import NewsContext
 
+logger = get_logger("TutorialSpider")
 
 class TutorialSpider(scrapy.Spider):
     name = "tutorial"
@@ -36,5 +38,6 @@ class TutorialSpider(scrapy.Spider):
             loader._add_value("content", content)
             loader.add_value("date", int(time.time()))
             loader.add_value("domain", self.task_domain)
-            print(json.dumps(dict(loader.load_item())))
+
+            logger.info(json.dumps(dict(loader.load_item())))
             return loader.load_item()

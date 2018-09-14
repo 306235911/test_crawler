@@ -11,8 +11,11 @@ from redis import Redis
 import hashlib
 
 # todo:从配置读
+from src.dealer.log.logger import get_logger
+
 redis = Redis(host="localhost", port=6379,
               db=1)
+logger = get_logger("piplines.py")
 
 
 class TutorialPipeline(object):
@@ -28,8 +31,7 @@ class TutorialPipeline(object):
         md5_url = hashlib.md5(item["url"][0].encode()).hexdigest()
         unique_prefix = "unique:url:"
         if redis.sismember(unique_prefix+md5_domain, item["url"][0]):
-            # todo:log
-            print("重复的url")
+            logger.warn("重复的url")
             return
         redis.sadd(unique_prefix+md5_domain, item['url'][0])
         item["id"] = md5_url
@@ -43,7 +45,7 @@ class TutorialPipeline(object):
             self.producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'))
             self.producer.send(topic, item)
         except Exception as e:
-            print(e)
+            logger.error(e)
             self.producer.close()
         return item
 
