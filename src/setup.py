@@ -19,6 +19,6 @@ setup(
         'Programming Language :: Python :: 3.7'
     ],
     keywords='test crawler',
-    packages=['src', 'src.crawler.tutorial.tutorial', 'dealer',
+    packages=['crawler.tutorial.tutorial', 'dealer',
               'dealer.kafka', 'dealer.log']
 )
