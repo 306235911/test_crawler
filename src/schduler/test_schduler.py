@@ -6,7 +6,7 @@ from scrapy.crawler import Crawler
 from scrapy import log, signals
 from scrapy.utils.project import get_project_settings
 
-from crawler.tutorial.tutorial.spiders.tutorial_spider import TutorialSpider
+from common_crawler.tutorial.tutorial.spiders.tutorial_spider import TutorialSpider
 
 spider = TutorialSpider()
 settings = get_project_settings()

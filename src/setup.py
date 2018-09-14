@@ -18,7 +18,7 @@ setup(
     classifiers=[
         'Programming Language :: Python :: 3.7'
     ],
-    keywords='test crawler',
-    packages=['crawler', 'crawler.tutorial.tutorial', 'dealer',
-              'dealer.kafka', 'dealer.log', 'crawler.tutorial.tutorial.spiders']
+    keywords='test common_crawler',
+    packages=['common_crawler', 'common_crawler.tutorial.tutorial', 'dealer',
+              'dealer.kafka', 'dealer.log', 'common_crawler.tutorial.tutorial.spiders']
 )
