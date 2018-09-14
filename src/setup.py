@@ -19,6 +19,6 @@ setup(
         'Programming Language :: Python :: 3.7'
     ],
     keywords='test common_crawler',
-    packages=['common_crawler', 'common_crawler.instance.instance', 'dealer',
-              'dealer.kafka', 'dealer.log', 'common_crawler.instance.instance.spiders']
+    packages=['common_crawler', 'common_crawler.instance.tutorial', 'dealer',
+              'dealer.kafka', 'dealer.log', 'common_crawler.instance.tutorial.spiders']
 )
