@@ -13,7 +13,7 @@ from ..items import NewsContext
 logger = get_logger("TutorialSpider")
 
 class TutorialSpider(scrapy.Spider):
-    name = "tutorial"
+    name = "instance"
     task_domain = "www.bbc.com"
 
     def start_requests(self):
