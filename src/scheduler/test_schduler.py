@@ -31,6 +31,7 @@ def up_process():
     while(True):
         task = redis.lpop(redis_queue)
         #sleep
+        break
 
 
 if __name__ == '__main__':
