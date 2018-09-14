@@ -4,7 +4,7 @@
 import logging
 from logging.handlers import TimedRotatingFileHandler, WatchedFileHandler
 
-LOGGER_FILE_PATH = "/home/pwx/log/log.log"
+LOGGER_FILE_PATH = "/home/pwx/logs/log.log"
 LOGGER_FORMAT = '[%(asctime)s] [%(name)s:%(lineno)d] [%(levelname)s] %(message)s'
 
 
