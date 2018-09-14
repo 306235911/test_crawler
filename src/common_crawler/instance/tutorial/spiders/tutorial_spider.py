@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Created by weixiong
-import json
+
+import time
 
 import scrapy
-import time
 from scrapy.loader import ItemLoader
 
 from dealer.log.logger import get_logger
 from ..items import NewsContext
 
 logger = get_logger("TutorialSpider")
+
 
 class TutorialSpider(scrapy.Spider):
     name = "tutorial"
