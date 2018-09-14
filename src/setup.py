@@ -20,5 +20,5 @@ setup(
     ],
     keywords='test crawler',
     packages=['crawler.tutorial.tutorial', 'dealer',
-              'dealer.kafka', 'dealer.log', 'crawler', 'crawler.tutorial.tutorial.spider']
+              'dealer.kafka', 'dealer.log', 'crawler', 'crawler.tutorial.tutorial.spiders']
 )
