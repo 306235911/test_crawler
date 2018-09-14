@@ -21,5 +21,5 @@ setup(
     ],
     keywords='test common_crawler',
     packages=['common_crawler', 'common_crawler.instance.tutorial', 'dealer', 'common_crawler.instance',
-              'dealer.kafka', 'dealer.log', 'common_crawler.instance.tutorial.spiders']
+              'dealer.kafka', 'dealer.log', 'common_crawler.instance.tutorial.spiders', 'scheduler']
 )
