@@ -38,6 +38,4 @@ class TutorialSpider(scrapy.Spider):
             loader._add_value("content", content)
             loader.add_value("date", int(time.time()))
             loader.add_value("domain", self.task_domain)
-
-            logger.info(json.dumps(dict(loader.load_item())))
             return loader.load_item()
