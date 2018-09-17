@@ -14,16 +14,16 @@ from dealer.log.logger import get_logger
 
 logger = get_logger("worker")
 redis = Redis(host="localhost", port=6379, db=1)
-settings_file_path = 'common_crawler.instance.tutorial.settings'  # The path seen from root, ie. from main.py
-os.environ.setdefault('SCRAPY_SETTINGS_MODULE', settings_file_path)
+settings_file_path = 'tutorial'  # The path seen from root, ie. from main.py
+os.environ.setdefault('SCRAPY_PROJECT', "tutorial")
 settings = get_project_settings()
-crawler_prosecc = CrawlerProcess(settings)
+crawler_process = CrawlerProcess(settings)
 
 
 def worker(spider):
-    crawler_prosecc.crawl(spider)
+    crawler_process.crawl(spider)
     logger.info("start spider %s" % spider.__class__.__name__)
-    crawler_prosecc.start()  # the script will block here until the crawling is finished
+    crawler_process.start()  # the script will block here until the crawling is finished
 
 
 def up_worker():
