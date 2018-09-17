@@ -21,7 +21,6 @@ def get_task():
         interval = 10
         rst_list = redis.zrange(raw_task_key, 0, -1, withscores=True)
         timestamp = int(time.time())
-        logger.info("get task length: %d" % len(rst_list))
         for task_withscores in rst_list:
             spider_class = task_withscores[0].decode("utf-8")
             socre = int(task_withscores[1])
