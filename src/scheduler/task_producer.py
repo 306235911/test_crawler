@@ -12,7 +12,8 @@ from dealer.log.logger import get_logger
 
 logger = get_logger("worker")
 redis = Redis(host="localhost", port=6379, db=1)
-crawler_prosecc = CrawlerProcess(get_project_settings())
+settings = get_project_settings()
+crawler_prosecc = CrawlerProcess(settings)
 
 
 def worker(spider):
