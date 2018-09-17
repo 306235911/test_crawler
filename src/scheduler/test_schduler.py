@@ -28,7 +28,7 @@ def get_task():
             if timestamp > socre:
                 logger.info("put class %s to running queue" % spider_class)
                 redis.lpush(redis_task_queue, spider_class)
-                redis.zadd(raw_task_key, timestamp + 3600 * 6, spider_class)
+                redis.zadd(raw_task_key, spider_class, timestamp + 3600 * 6)
                 interval = 1
         logger.info("sleep %d s" % interval)
         time.sleep(interval)
