@@ -1,38 +1,45 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Created by weixiong
-from apscheduler.schedulers.blocking import BlockingScheduler
-from pytz import utc
-from redis import Redis
-from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings
+import time
 
-from common_crawler.instance.tutorial.spiders.tutorial_spider import TutorialSpider
+# from apscheduler.schedulers.blocking import BlockingScheduler
+# from pytz import utc
+from redis import Redis
+
 from dealer.log.logger import get_logger
 
 logger = get_logger("test_scheduler")
+redis = Redis(host="localhost", port=6379, db=1)
 
 
-def process():
-    crawler_prosecc = CrawlerProcess(get_project_settings())
+def get_task():
+    raw_task_key = "crawler:task"
+    redis_task_queue = "crawler:task:queue"
 
-    crawler_prosecc.crawl(TutorialSpider)
-    crawler_prosecc.start()  # the script will block here until the crawling is finished
+    while (True):
+        interval = 10
+        rst_list = redis.zrange(raw_task_key, 0, -1, withscores=True)
+        timestamp = int(time.time())
+        logger.info("get task length: %d" % int(rst_list))
+        for task_withscores in rst_list:
+            spider_class = task_withscores[0].decode("utf-8")
+            socre = int(task_withscores[1])
+            if timestamp > socre:
+                logger.info("put class %s to running queue" % spider_class)
+                redis.lpush(redis_task_queue, spider_class)
+                redis.zadd(raw_task_key, timestamp + 3600 * 6, spider_class)
+                interval = 1
+        logger.info("sleep %d s" % interval)
+        time.sleep(interval)
 
 
 # 定时调度
 # def up_process():
 #     sched = BlockingScheduler(timezone=utc)
-#     sched.add_job(func=process, trigger='cron', second='0', minute='*/10', hour='*/6')
+#     sched.add_job(func=get_task, trigger='cron', second='0', minute='*/10', hour='*/6')
 #     sched.start()
-def up_process():
-    redis_queue = "crawler:task:queue"
-    redis = Redis(host="localhost", port=6379, db=1)
-    while(True):
-        task = redis.lpop(redis_queue)
-        #sleep
-        break
 
 
 if __name__ == '__main__':
-    up_process()
+    get_task()
