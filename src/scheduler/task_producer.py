@@ -12,10 +12,10 @@ from dealer.log.logger import get_logger
 
 logger = get_logger("worker")
 redis = Redis(host="localhost", port=6379, db=1)
+crawler_prosecc = CrawlerProcess(get_project_settings())
 
 
 def worker(spider):
-    crawler_prosecc = CrawlerProcess(get_project_settings())
     crawler_prosecc.crawl(spider)
     logger.info("start spider %s" % spider.__class__.__name__)
     crawler_prosecc.start()  # the script will block here until the crawling is finished
