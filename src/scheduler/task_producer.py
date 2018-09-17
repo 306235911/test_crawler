@@ -10,7 +10,7 @@ from scrapy.utils.project import get_project_settings
 
 from dealer.log.logger import get_logger
 
-logger = get_logger("task_producer")
+logger = get_logger("worker")
 redis = Redis(host="localhost", port=6379, db=1)
 
 
