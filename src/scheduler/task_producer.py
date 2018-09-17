@@ -4,6 +4,8 @@
 import importlib
 
 import time
+
+import os
 from redis import Redis
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
@@ -12,6 +14,8 @@ from dealer.log.logger import get_logger
 
 logger = get_logger("worker")
 redis = Redis(host="localhost", port=6379, db=1)
+settings_file_path = 'instance.tutorial.settings'  # The path seen from root, ie. from main.py
+os.environ.setdefault('SCRAPY_SETTINGS_MODULE', settings_file_path)
 settings = get_project_settings()
 crawler_prosecc = CrawlerProcess(settings)
 
