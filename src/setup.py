@@ -6,7 +6,8 @@ from setuptools import setup
 setup(
     entry_points={
         'console_scripts': [
-            'crawler-scheduler = scheduler:up_process'
+            'crawler-scheduler = scheduler:up_process',
+            'crawler-worker = scheduler:up_worker'
         ]
     },
     name='test_crawl',
