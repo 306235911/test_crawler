@@ -6,7 +6,7 @@ git pull
 source .venv/bin/activate
 cd src && python setup.py install
 cd ../bin
-sh start.sh
+sh stop.sh && sh start.sh
 #cd scheduler && python test_schduler.py
 #scrapy crawl tutorial
 #rm -rf .venv && virtualenv --no-site-packages --python=python3.7 .venv
