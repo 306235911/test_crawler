@@ -45,11 +45,11 @@ class TutorialSpider(scrapy.Spider):
             return loader.load_item()
 
     @staticmethod
-    def start_hook():
+    def start_hook(name):
         process = CrawlerProcess(get_project_settings())
-        process.crawl(__class__.__name__)
+        process.crawl(name)
         process.start()  # the script will block here until the crawling is finished
 
 
 if __name__ == '__main__':
-    TutorialSpider.start_hook()
+    TutorialSpider.start_hook("tutorial")
