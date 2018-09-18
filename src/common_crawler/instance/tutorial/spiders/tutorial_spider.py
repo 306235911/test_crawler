@@ -8,16 +8,16 @@ import scrapy
 from scrapy.loader import ItemLoader
 
 from common_crawler.BaseSpider import BaseSpider
-from dealer.log.logger import get_logger
-from ..items import NewsContext
-
-logger = get_logger("TutorialSpider")
+from common_crawler.instance.tutorial.items import NewsContext
+# from dealer.log.logger import get_logger
+#
+# logger = get_logger("TutorialSpider")
 
 
 class TutorialSpider(BaseSpider):
     name = "tutorial"
     task_domain = "www.bbc.com"
-    logger.info("start tutorial spider")
+    # logger.info("start tutorial spider")
 
     def start_requests(self):
         urls = [
@@ -43,3 +43,5 @@ class TutorialSpider(BaseSpider):
             loader.add_value("domain", self.task_domain)
             return loader.load_item()
 
+aa = TutorialSpider()
+aa.start_hook(aa)
