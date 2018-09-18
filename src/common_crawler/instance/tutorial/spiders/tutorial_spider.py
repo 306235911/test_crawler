@@ -5,9 +5,7 @@
 import time
 
 import scrapy
-from scrapy.crawler import CrawlerProcess
 from scrapy.loader import ItemLoader
-from scrapy.utils.project import get_project_settings
 
 from common_crawler.BaseSpider import BaseSpider
 from common_crawler.instance.tutorial.items import NewsContext
@@ -16,7 +14,7 @@ from dealer.log.logger import get_logger
 logger = get_logger("TutorialSpider")
 
 
-class TutorialSpider(scrapy.Spider):
+class TutorialSpider(BaseSpider):
     name = "tutorial"
     task_domain = "www.bbc.com"
     logger.info("start tutorial spider")
@@ -45,10 +43,6 @@ class TutorialSpider(scrapy.Spider):
             loader.add_value("domain", self.task_domain)
             return loader.load_item()
 
-    def start_hook(self):
-        process = CrawlerProcess(get_project_settings())
-        process.crawl(self.__class__)
-        process.start() # the script will block here until the crawling is finished
 
 if __name__ == '__main__':
     aa = TutorialSpider()

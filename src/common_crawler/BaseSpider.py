@@ -2,14 +2,13 @@
 # -*- coding:utf-8 -*-
 # Created by weixiong
 import scrapy
-from scrapy.crawler import CrawlerRunner
-from twisted.internet import reactor
+from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
 
 
 class BaseSpider(scrapy.Spider):
 
     def start_hook(self):
-        runner = CrawlerRunner()
-        d = runner.crawl(self.__class__)
-        d.addBoth(lambda _: reactor.stop())
-        reactor.run()  # the script will block here until the crawling is finished
+        process = CrawlerProcess(get_project_settings())
+        process.crawl(self.__class__)
+        process.start()  # the script will block here until the crawling is finished
