@@ -9,7 +9,7 @@ class BaseSpider(scrapy.Spider):
 
     def start_hook(self):
         process = CrawlerProcess({
-            'ITEM_PIPELINES': {'tutorial.pipelines.TutorialPipeline': 300},
+            'ITEM_PIPELINES': {'common_crawler.tutorial.pipelines.TutorialPipeline': 300},
             'LOG_FILE': "/home/pwx/logs/log.log",
             'DOWNLOAD_DELAY': 3,
             'LOG_LEVEL': 'INFO'
