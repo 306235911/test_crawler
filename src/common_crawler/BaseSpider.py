@@ -11,4 +11,4 @@ class BaseSpider(scrapy.Spider):
     def start_hook(self):
         process = CrawlerProcess(get_project_settings())
         process.crawl(self.name)
-        process.start()
+        process.start(stop_after_crawl=False)
