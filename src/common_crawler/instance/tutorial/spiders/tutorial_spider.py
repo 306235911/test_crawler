@@ -29,7 +29,7 @@ class TutorialSpider(BaseSpider):
     def parse(self, response):
         for detail_link in response.css(".title-link::attr(href)").re(r'.+?chinese-news.+|.+?world-.+|.+?business-.+'):
             yield response.follow(detail_link, self.parse_detail)
-            # break
+            break
 
     def parse_detail(self, response):
         title = response.css(".story-body h1::text")
