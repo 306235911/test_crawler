@@ -53,4 +53,5 @@ class TutorialSpider(scrapy.Spider):
         process.start() # the script will block here until the crawling is finished
 
 aa = TutorialSpider()
+logger.info("excete the hook")
 aa.start_hook()
