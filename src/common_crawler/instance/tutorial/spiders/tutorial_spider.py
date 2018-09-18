@@ -34,7 +34,7 @@ class TutorialSpider(scrapy.Spider):
             break
 
     def parse_detail(self, response):
-        title = response.css(".story-body h1::text")
+        title = response.css(".story-body h1::text").extract()
         content = "".join(response.css('div[property=articleBody] p::text').extract())
         if title and content:
             loader = ItemLoader(item=NewsContext(), response=response)
