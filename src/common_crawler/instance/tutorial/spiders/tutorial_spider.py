@@ -44,4 +44,4 @@ class TutorialSpider(BaseSpider):
             return loader.load_item()
 
 aa = TutorialSpider()
-aa.start_hook(aa)
+aa.start_hook()
