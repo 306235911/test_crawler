@@ -7,13 +7,14 @@ import time
 import scrapy
 from scrapy.loader import ItemLoader
 
+from common_crawler.BaseSpider import BaseSpider
 from dealer.log.logger import get_logger
 from ..items import NewsContext
 
 logger = get_logger("TutorialSpider")
 
 
-class TutorialSpider(scrapy.Spider):
+class TutorialSpider(BaseSpider):
     name = "tutorial"
     task_domain = "www.bbc.com"
     logger.info("start tutorial spider")
@@ -41,3 +42,4 @@ class TutorialSpider(scrapy.Spider):
             loader.add_value("date", int(time.time()))
             loader.add_value("domain", self.task_domain)
             return loader.load_item()
+
