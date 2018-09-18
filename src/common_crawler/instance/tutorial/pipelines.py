@@ -6,6 +6,8 @@ import json
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
+import traceback
+
 from kafka import KafkaProducer
 from redis import Redis
 import hashlib
@@ -46,7 +48,7 @@ class TutorialPipeline(object):
             self.producer = KafkaProducer(value_serializer=lambda v: json.dumps(v).encode('utf-8'))
             self.producer.send(topic, item)
         except Exception as e:
-            logger.error(e)
+            logger.error(traceback.print_exc())
             self.producer.close()
         return item
 
