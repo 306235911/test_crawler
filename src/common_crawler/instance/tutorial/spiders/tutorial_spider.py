@@ -9,15 +9,15 @@ from scrapy.loader import ItemLoader
 
 from common_crawler.BaseSpider import BaseSpider
 from common_crawler.instance.tutorial.items import NewsContext
-# from dealer.log.logger import get_logger
-#
-# logger = get_logger("TutorialSpider")
+from dealer.log.logger import get_logger
+
+logger = get_logger("TutorialSpider")
 
 
 class TutorialSpider(BaseSpider):
     name = "tutorial"
     task_domain = "www.bbc.com"
-    # logger.info("start tutorial spider")
+    logger.info("start tutorial spider")
 
     def start_requests(self):
         urls = [
