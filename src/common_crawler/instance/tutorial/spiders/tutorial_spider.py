@@ -48,7 +48,8 @@ class TutorialSpider(scrapy.Spider):
     def start_hook(self):
         process = CrawlerProcess(get_project_settings())
         # 'followall' is the name of one of the spiders of the project.
-        process.crawl(self.name)
+        process.crawl(self.__class__)
+        logger.info("now to start")
         process.start() # the script will block here until the crawling is finished
 
 aa = TutorialSpider()
