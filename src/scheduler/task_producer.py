@@ -4,21 +4,26 @@
 import importlib
 
 import time
+
+import os
 from redis import Redis
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
 from dealer.log.logger import get_logger
 
-logger = get_logger("task_producer")
+logger = get_logger("worker")
 redis = Redis(host="localhost", port=6379, db=1)
+settings_file_path = 'common_crawler.instance.tutorial.settings'  # The path seen from root, ie. from main.py
+os.environ.setdefault('SCRAPY_SETTINGS_MODULE', settings_file_path)
+settings = get_project_settings()
+crawler_process = CrawlerProcess(settings)
 
 
 def worker(spider):
-    crawler_prosecc = CrawlerProcess(get_project_settings())
-    crawler_prosecc.crawl(spider)
+    crawler_process.crawl(spider)
     logger.info("start spider %s" % spider.__class__.__name__)
-    crawler_prosecc.start()  # the script will block here until the crawling is finished
+    crawler_process.start()  # the script will block here until the crawling is finished
 
 
 def up_worker():
@@ -28,8 +33,8 @@ def up_worker():
         task = redis.lpop(redis_task_queue)
         if task:
             logger.info("worker get task")
-            spider_class = importlib.import_module(task.rsplit(".", 1)[0].decode("utf-8"))
-            spider = getattr(spider_class, task.rsplit(".", 1)[1].decode("utf-8"))()
+            spider_class = importlib.import_module(task.decode("utf-8").rsplit(".", 1)[0])
+            spider = getattr(spider_class, task.decode("utf-8").rsplit(".", 1)[1])()
             worker(spider)
             interval = 1
         logger.info("sleep %d s" % interval)

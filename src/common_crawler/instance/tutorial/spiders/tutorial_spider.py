@@ -16,6 +16,7 @@ logger = get_logger("TutorialSpider")
 class TutorialSpider(scrapy.Spider):
     name = "tutorial"
     task_domain = "www.bbc.com"
+    logger.info("start tutorial spider")
 
     def start_requests(self):
         urls = [
