@@ -6,9 +6,15 @@ from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
 
-class BaseSpider(scrapy.Spider):
+class BaseSpider():
 
     def start_hook(self):
         process = CrawlerProcess(get_project_settings())
         process.crawl(self.__class__)
         process.start()  # the script will block here until the crawling is finished
+
+    @staticmethod
+    def static():
+        return __class__.__name__
+
+print(BaseSpider.static())
