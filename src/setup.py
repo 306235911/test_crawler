@@ -7,7 +7,7 @@ setup(
     entry_points={
         'console_scripts': [
             'crawler-scheduler = scheduler:get_task',
-            'crawler-worker = scheduler:up_worker'
+            'crawler-worker = common_crawler.instance.tutorial.spiders.task_producer:up_worker'
         ]
     },
     name='test_crawl',
