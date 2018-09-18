@@ -3,17 +3,12 @@
 # Created by weixiong
 import scrapy
 from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
 
 
 class BaseSpider(scrapy.Spider):
 
     def start_hook(self):
-        process = CrawlerProcess({
-            'ITEM_PIPELINES': {'common_crawler.tutorial.pipelines.TutorialPipeline': 300},
-            'LOG_FILE': "/home/pwx/logs/log.log",
-            'DOWNLOAD_DELAY': 3,
-            'LOG_LEVEL': 'INFO'
-
-        })
+        process = CrawlerProcess(get_project_settings())
         process.crawl(self.__class__)
         process.start()  # the script will block here until the crawling is finished
