@@ -26,8 +26,8 @@ def up_worker():
         if task:
             logger.info("worker get task")
             spider_class = importlib.import_module(task.decode("utf-8").rsplit(".", 1)[0])
-            spider = getattr(spider_class, task.decode("utf-8").rsplit(".", 1)[1])()
-            spider.start_hook()
+            getattr(spider_class, task.decode("utf-8").rsplit(".", 1)[1])().start_hook("tutorial")
+            # spider.start_hook()
             # worker(spider)
             interval = 1
         logger.info("sleep %d s" % interval)
