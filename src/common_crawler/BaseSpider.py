@@ -12,3 +12,4 @@ class BaseSpider(scrapy.Spider):
         process = CrawlerProcess(get_project_settings())
         process.crawl(self.name)
         process.start(stop_after_crawl=False)
+        process.stop()
