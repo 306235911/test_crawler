@@ -5,9 +5,10 @@
 import time
 
 import scrapy
-from scrapy.crawler import CrawlerProcess
+from scrapy.crawler import CrawlerProcess, CrawlerRunner
 from scrapy.loader import ItemLoader
 from scrapy.utils.project import get_project_settings
+from twisted.internet import reactor
 
 from common_crawler.BaseSpider import BaseSpider
 from common_crawler.instance.tutorial.items import NewsContext
@@ -45,11 +46,8 @@ class TutorialSpider(scrapy.Spider):
             loader.add_value("domain", self.task_domain)
             return loader.load_item()
 
-    # def start_hook(self):
-process = CrawlerProcess(get_project_settings())
-# 'followall' is the name of one of the spiders of the project.
-process.crawl('tutorial')
-process.start() # the script will block here until the crawling is finished
+runner = CrawlerRunner()
 
-# aa = TutorialSpider()
-# aa.start_hook()
+d = runner.crawl(TutorialSpider)
+d.addBoth(lambda _: reactor.stop())
+reactor.run() # the script will block here until the crawling is finished
