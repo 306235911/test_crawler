@@ -45,11 +45,11 @@ class TutorialSpider(scrapy.Spider):
             loader.add_value("domain", self.task_domain)
             return loader.load_item()
 
-    def start_hook(self):
-        process = CrawlerProcess(get_project_settings())
-        # 'followall' is the name of one of the spiders of the project.
-        process.crawl(self.name)
-        process.start() # the script will block here until the crawling is finished
+    # def start_hook(self):
+process = CrawlerProcess(get_project_settings())
+# 'followall' is the name of one of the spiders of the project.
+process.crawl('tutorial')
+process.start() # the script will block here until the crawling is finished
 
-aa = TutorialSpider()
-aa.start_hook()
+# aa = TutorialSpider()
+# aa.start_hook()
