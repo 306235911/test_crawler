@@ -7,7 +7,7 @@ import time
 import scrapy
 from scrapy.loader import ItemLoader
 
-from common_crawler.BaseSpider import BaseSpider
+from common_crawler.instance.tutorial.spiders.BaseSpider import BaseSpider
 from common_crawler.instance.tutorial.items import NewsContext
 from dealer.log.logger import get_logger
 
