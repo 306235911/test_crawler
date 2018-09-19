@@ -4,7 +4,7 @@
 import importlib
 import time
 import traceback
-from multiprocessing.pool import Pool
+from multiprocessing import Pool
 
 from redis import Redis
 from scrapy.crawler import CrawlerProcess
