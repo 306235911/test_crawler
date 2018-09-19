@@ -26,7 +26,7 @@ class ReutersSpider(BaseSpider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        for detail_link in response.css(".story-content a").re(r'.+?/article/.+'):
+        for detail_link in response.css(".story-content a").re(r'.*?/article/.+'):
             print(detail_link)
             # yield response.follow(detail_link, self.parse_detail)
             # break
