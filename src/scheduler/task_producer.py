@@ -20,14 +20,23 @@ def worker(spider):
     pass
 
 
+def run_task(task_class):
+    try:
+        process = CrawlerProcess(get_project_settings())
+        process.crawl(task_class)
+        process.start()
+    except Exception as e:
+        logger.error(traceback.format_exc())
+
+
 def up_worker():
-    def run_task(task_class):
-        try:
-            process = CrawlerProcess(get_project_settings())
-            process.crawl(task_class)
-            process.start()
-        except Exception as e:
-            logger.error(traceback.format_exc())
+    # def run_task(task_class):
+    #     try:
+    #         process = CrawlerProcess(get_project_settings())
+    #         process.crawl(task_class)
+    #         process.start()
+    #     except Exception as e:
+    #         logger.error(traceback.format_exc())
 
     redis_task_queue = "crawler:task:queue"
     spider_list = []
