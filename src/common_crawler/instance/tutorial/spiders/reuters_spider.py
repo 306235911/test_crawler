@@ -32,6 +32,7 @@ class ReutersSpider(BaseSpider):
 
     def parse_detail(self, response):
         print(response.url)
+        pass
         title = response.css(".ArticleHeader_headline").extract()
         content = "".join(response.css('.StandardArticleBody_body > p::text').extract())
         if title and content:
