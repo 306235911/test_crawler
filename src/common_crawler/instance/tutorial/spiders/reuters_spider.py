@@ -1,34 +1,35 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Created by weixiong
-
 import time
 
 import scrapy
 from scrapy.loader import ItemLoader
 
-from common_crawler.instance.tutorial.spiders.BaseSpider import BaseSpider
 from common_crawler.instance.tutorial.items import NewsContext
+from common_crawler.instance.tutorial.spiders.BaseSpider import BaseSpider
 from dealer.log.logger import get_logger
 
-logger = get_logger("TutorialSpider")
+logger = get_logger("reuters")
 
 
-class TutorialSpider(BaseSpider):
-    name = "tutorial"
-    task_domain = "www.bbc.com"
-    logger.info("start tutorial spider")
+class ReutersSpider(BaseSpider):
+    name = "reuters"
+    task_domain = "cn.reuters.com"
+    logger.info("start reuters spider")
 
     def start_requests(self):
         urls = [
-            'https://www.bbc.com/zhongwen/simp'
+            'https://cn.reuters.com'
         ]
         for url in urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        for detail_link in response.css(".title-link::attr(href)").re(r'.+?chinese-news.+|.+?world-.+|.+?business-.+'):
-            yield response.follow(detail_link, self.parse_detail)
+        for detail_link in response.css(".story-content a").re(r'.+?/article/.+'):
+            print(detail_link)
+            # yield response.follow(detail_link, self.parse_detail)
+            # break
 
     def parse_detail(self, response):
         title = response.css(".story-body h1::text").extract()
@@ -41,8 +42,3 @@ class TutorialSpider(BaseSpider):
             loader.add_value("date", int(time.time()))
             loader.add_value("domain", self.task_domain)
             return loader.load_item()
-
-
-if __name__ == '__main__':
-    aa = TutorialSpider()
-    aa.start_hook()
