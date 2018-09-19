@@ -49,13 +49,15 @@ def up_worker():
             spider = getattr(spider_class, task.decode("utf-8").rsplit(".", 1)[1])()
             spider_list.append(spider)
             interval = 1
+        # reactor不允许 restart，所以通过子进程跑
         # 判断若没有任务或pool已满就开跑一波
         if (interval == 10 and len(spider_list) > 0) or len(spider_list) == 2:
             pool = Pool(2)
+            # 只能 pickle top-level 的方法
             pool.map(run_task, spider_list)
             pool.close()
             pool.join()
-            # reactor不允许 restart，所以通过子进程跑
+            # 可调用本地方法
             # p = Process(target=run_task, args=(spider,))
             # p.start()
             # p.join()
