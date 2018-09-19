@@ -40,7 +40,7 @@ def up_worker():
             # process = CrawlerProcess(get_project_settings())
             # process.crawl(spider)
             # process.start()
-            p = Process(target=run_task(), args=(spider,))
+            p = Process(target=run_task, args=(spider,))
             p.start()
             p.join()
             logger.info("task finished")
