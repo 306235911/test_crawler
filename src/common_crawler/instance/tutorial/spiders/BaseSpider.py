@@ -11,7 +11,7 @@ class BaseSpider(scrapy.Spider):
     custom_settings = {
         "DOWNLOAD_DELAY": 3,
         "ITEM_PIPELINES": {
-            'tutorial.pipelines.TutorialPipeline': 300,
+            'common_crawler.instance.tutorial.pipelines.TutorialPipeline': 300,
         },
         "LOG_FILE": "/home/pwx/logs/log.log",
         "LOG_LEVEL": "INFO"
