@@ -27,13 +27,12 @@ class ReutersSpider(BaseSpider):
 
     def parse(self, response):
         for detail_link in response.css(".story-content a").re(r'.*?/article/.+'):
-            print(detail_link)
-            # yield response.follow(detail_link, self.parse_detail)
-            # break
+            yield response.follow(detail_link, self.parse_detail)
+            break
 
     def parse_detail(self, response):
-        title = response.css(".story-body h1::text").extract()
-        content = "".join(response.css('div[property=articleBody] p::text').extract())
+        title = response.css(".ArticleHeader_headline").extract()
+        content = "".join(response.css('.StandardArticleBody_body > p::text').extract())
         if title and content:
             loader = ItemLoader(item=NewsContext(), response=response)
             loader._add_value("url", response.url)
