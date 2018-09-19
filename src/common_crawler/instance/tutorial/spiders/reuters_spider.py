@@ -42,3 +42,8 @@ class ReutersSpider(BaseSpider):
             loader.add_value("date", int(time.time()))
             loader.add_value("domain", self.task_domain)
             return loader.load_item()
+
+
+if __name__ == '__main__':
+    aa = ReutersSpider()
+    aa.start_hook()
