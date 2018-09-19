@@ -20,4 +20,4 @@ class BaseSpider(scrapy.Spider):
     def start_hook(self):
         process = CrawlerProcess(get_project_settings())
         process.crawl(self.__class__)
-        process.start()  # the script will block here until the crawling is finished
+        process.start()
