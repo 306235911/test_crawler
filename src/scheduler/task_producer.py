@@ -4,7 +4,7 @@
 import importlib
 import time
 import traceback
-from multiprocessing import Process
+from multiprocessing.pool import Pool
 
 from redis import Redis
 from scrapy.crawler import CrawlerProcess
@@ -30,6 +30,7 @@ def up_worker():
             logger.error(traceback.format_exc())
 
     redis_task_queue = "crawler:task:queue"
+    spider_list = []
     while (True):
         interval = 10
         task = redis.lpop(redis_task_queue)
@@ -37,15 +38,21 @@ def up_worker():
             logger.info("worker get task")
             spider_class = importlib.import_module(task.decode("utf-8").rsplit(".", 1)[0])
             spider = getattr(spider_class, task.decode("utf-8").rsplit(".", 1)[1])()
-            # process = CrawlerProcess(get_project_settings())
-            # process.crawl(spider)
-            # process.start()
-            p = Process(target=run_task, args=(spider,))
-            p.start()
-            p.join()
+            spider_list.append(spider)
+            interval = 1
+        # 判断若没有任务或pool已满就开跑一波
+        if (interval == 10 and len(spider_list) > 0) or len(spider_list) == 2:
+            pool = Pool(2)
+            pool.map(run_task, spider_list)
+            pool.close()
+            pool.join()
+            # reactor不允许 restart，所以通过子进程跑
+            # p = Process(target=run_task, args=(spider,))
+            # p.start()
+            # p.join()
             logger.info("task finished")
             # worker(spider)
-            interval = 1
+            spider_list = []
         logger.info("sleep %d s" % interval)
         time.sleep(interval)
 
