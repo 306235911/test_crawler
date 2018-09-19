@@ -28,11 +28,8 @@ class ReutersSpider(BaseSpider):
     def parse(self, response):
         for detail_link in response.css(".story-content a::attr(href)").re(r'.*?/article/.+'):
             yield response.follow(detail_link, self.parse_detail)
-            break
 
     def parse_detail(self, response):
-        print(response.url)
-        pass
         title = response.css(".ArticleHeader_headline").extract()
         content = "".join(response.css('.StandardArticleBody_body > p::text').extract())
         if title and content:

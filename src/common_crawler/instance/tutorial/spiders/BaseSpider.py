@@ -13,8 +13,8 @@ class BaseSpider(scrapy.Spider):
         "ITEM_PIPELINES": {
             'common_crawler.instance.tutorial.pipelines.TutorialPipeline': 300,
         },
-        # "LOG_FILE": "/home/pwx/logs/log.log",
-        # "LOG_LEVEL": "INFO"
+        "LOG_FILE": "/home/pwx/logs/log.log",
+        "LOG_LEVEL": "INFO"
     }
 
     def start_hook(self):
