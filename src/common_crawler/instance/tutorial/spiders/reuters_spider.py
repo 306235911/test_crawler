@@ -26,11 +26,12 @@ class ReutersSpider(BaseSpider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        for detail_link in response.css(".story-content a").re(r'.*?/article/.+'):
+        for detail_link in response.css(".story-content a::attr(href)").re(r'.*?/article/.+'):
             yield response.follow(detail_link, self.parse_detail)
             break
 
     def parse_detail(self, response):
+        print(response.url)
         title = response.css(".ArticleHeader_headline").extract()
         content = "".join(response.css('.StandardArticleBody_body > p::text').extract())
         if title and content:
