@@ -13,16 +13,19 @@ def to_hbase():
     connection = happybase.Connection('localhost', autoconnect=False)
     connection.open()
     table = connection.table('testtable')
+    title_list = []
     for key, data in table.scan():
-        print(key.decode("utf-8"))
+        # print(key.decode("utf-8"))
         jdata = json.loads(data[b'cf1:'].decode(encoding='utf-8'))
-        print(jdata)
-        split_word(jdata["content"])
+        # print(jdata)
+        # split_word(jdata["content"])
         if "<h1 " in jdata['title']:
             table.delete(key)
             print("bad title del...")
         else:
-            break
+            title_list.append(jdata["title"])
+    print(title_list)
+    print(len(title_list))
 
 def split_word(content):
     # 加载停用词
