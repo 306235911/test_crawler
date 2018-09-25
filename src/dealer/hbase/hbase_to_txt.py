@@ -24,7 +24,7 @@ def to_hbase():
 
 def split_word(content):
     # 加载停用词
-    with open("stopwords.txt") as f:
+    with open("/home/pwx/stopwords/中文停用词表.txt") as f:
         read = f.read().decode('utf-8')
         stop_words = read.splitlines()
 
