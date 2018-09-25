@@ -32,6 +32,7 @@ def split_word(content):
     # 创建空列表 review_seg 用于存放每条评论的分词结果
     review_seg = []
     segs = jieba.cut(content)
+    print("".join(segs))
     for seg in segs:
         if seg not in stop_words:
             # 对于每条评论分词后的词汇，如果不在停用词表中就添加到该条评论的分词列表中，也就是说，如果是停用词就过滤掉
