@@ -9,7 +9,7 @@ def to_hbase():
     connection.open()
     table = connection.table('testtable')
     for key, data in table.scan():
-        print(str(key), str(data))
+        print(key.decode("utf-8"), data.decode("utf-8"))
         break
 
 to_hbase()
