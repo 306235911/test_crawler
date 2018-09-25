@@ -5,6 +5,8 @@ import json
 
 import happybase
 import jieba
+from jieba import posseg
+from collections import Counter
 
 
 def to_hbase():
@@ -39,6 +41,21 @@ def split_word(content):
     # 将每条评论的分词结果添加到列表 review_segs 中
     review_segs.append(review_seg)
     print(review_segs)
+    review_pos = []
+    for a, b in posseg.lcut(content):
+        if a not in stop_words:
+            review_pos.append((a, b))
+    review_n = []
+    review_a = []
+    for i in review_pos:
+        # 分别存储名词和形容词
+        if i[1] == "n":
+            review_n.append(i[0])
+        elif i[1] == "a":
+            review_a.append(i[0])
+    c1 = Counter(review_n)
+    for i in c1.most_common(5):
+        print(i[0], i[1])
 
 
 if __name__ == "__main__":
