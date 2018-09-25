@@ -13,6 +13,7 @@ def to_hbase():
     for key, data in table.scan():
         print(key.decode("utf-8"))
         jdata = json.loads(data[b'cf1:'].decode(encoding='utf-8'))
+        print(jdata)
         if "<h1 " in jdata['title']:
             table.delete(key)
             print("bad title del...")
