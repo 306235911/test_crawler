@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 # Created by weixiong
+import json
+
 import happybase
 
 
@@ -9,7 +11,7 @@ def to_hbase():
     connection.open()
     table = connection.table('testtable')
     for key, data in table.scan():
-        print(key.decode("utf-8"), data.decode("utf-8"))
+        print(key.decode("utf-8"), json.dumps(data))
         break
 
 to_hbase()
