@@ -19,7 +19,7 @@ def to_hbase():
         jdata = json.loads(data[b'cf1:'].decode(encoding='utf-8'))
         # print(jdata)
         # split_word(jdata["content"])
-        if "<h1 " in jdata['title']:
+        if "<h1 " in str(jdata['title']):
             table.delete(key)
             print("bad title del...")
         else:
