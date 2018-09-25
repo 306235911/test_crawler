@@ -25,14 +25,16 @@ def to_hbase():
         else:
             title_list.append(jdata['title'])
     spilted_words = split_word(title_list)
+    print(spilted_words)
     # 利用 gensim 库构建文档-词项矩阵
-    dictionary = corpora.Dictionary(spilted_words)
-    word_count = [dictionary.doc2bow(text) for text in spilted_words]
-    dtm_matrix = corpus2dense(word_count, len(dictionary))
-    km = KMeansClusterer(num_means=3, distance=nltk.cluster.util.euclidean_distance)
-    km.cluster(dtm_matrix)
-    for i in dtm_matrix:
-        print(i, km.classify(i))
+    # todo:改成词向量
+    # dictionary = corpora.Dictionary(spilted_words)
+    # word_count = [dictionary.doc2bow(text) for text in spilted_words]
+    # dtm_matrix = corpus2dense(word_count, len(dictionary))
+    # km = KMeansClusterer(num_means=3, distance=nltk.cluster.util.euclidean_distance)
+    # km.cluster(dtm_matrix)
+    # for i in dtm_matrix:
+    #     print(i, km.classify(i))
 
 
 
