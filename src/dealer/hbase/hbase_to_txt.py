@@ -12,7 +12,7 @@ def to_hbase():
     table = connection.table('testtable')
     for key, data in table.scan():
         print(key.decode("utf-8"))
-        print(json.loads(data.decode(encoding='utf-8')))
+        print(json.loads(data))
         break
 
 to_hbase()
