@@ -11,7 +11,8 @@ def to_hbase():
     connection.open()
     table = connection.table('testtable')
     for key, data in table.scan():
-        print(key.decode("utf-8"), str(data).decode("utf-8"))
+        print(key.decode("utf-8"))
+        print(str(data, "utf-8"))
         break
 
 to_hbase()
