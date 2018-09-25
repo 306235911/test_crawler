@@ -19,11 +19,15 @@ def to_hbase():
         jdata = json.loads(data[b'cf1:'].decode(encoding='utf-8'))
         # print(jdata)
         # split_word(jdata["content"])
-        if "<h1 " in str(jdata['title']):
+        try:
+            if "<h1 " in jdata['title']:
+                table.delete(key)
+                print("bad title del...")
+            else:
+                title_list.append(jdata["title"])
+        except TypeError as e:
             table.delete(key)
-            print("bad title del...")
-        else:
-            title_list.append(jdata["title"])
+            print("bad key %s: %s" % (key, str(jdata)))
     print(title_list)
     print(len(title_list))
 
