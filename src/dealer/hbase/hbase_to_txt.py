@@ -11,3 +11,5 @@ def to_hbase():
     for key, data in table.scan():
         print(str(key), str(data))
         break
+
+to_hbase()
