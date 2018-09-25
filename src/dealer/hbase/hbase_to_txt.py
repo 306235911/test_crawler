@@ -56,6 +56,9 @@ def split_word(content):
     c1 = Counter(review_n)
     for i in c1.most_common(5):
         print(i[0], i[1])
+    c2 = Counter(review_a)
+    for i in c2.most_common(5):
+        print(i[0], i[1])
 
 
 if __name__ == "__main__":
