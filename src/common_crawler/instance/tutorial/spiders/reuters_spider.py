@@ -30,7 +30,7 @@ class ReutersSpider(BaseSpider):
             yield response.follow(detail_link, self.parse_detail)
 
     def parse_detail(self, response):
-        title = response.css(".ArticleHeader_headline").extract()
+        title = "".join(response.css(".ArticleHeader_headline::text").extract())
         content = "".join(response.css('.StandardArticleBody_body > p::text').extract())
         if title and content:
             loader = ItemLoader(item=NewsContext(), response=response)
