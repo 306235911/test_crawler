@@ -3,11 +3,13 @@
 # Created by weixiong
 import json
 
+import gensim
 import happybase
 import jieba
 import nltk
-from gensim import corpora
+from gensim import corpora, models
 from gensim.matutils import corpus2dense
+from gensim.similarities import MatrixSimilarity
 from nltk.cluster import KMeansClusterer
 
 
@@ -25,7 +27,21 @@ def to_hbase():
         else:
             title_list.append(jdata['title'])
     spilted_words = split_word(title_list)
-    print(spilted_words)
+    dictionary = corpora.Dictionary(spilted_words)
+    text = [dictionary.doc2bow(words) for words in spilted_words]
+    tfidf_model = models.TfidfModel(text)
+    text_tfidf = tfidf_model[text]
+    # 构建 LSI 模型，计算文本相似度
+    sim_index = MatrixSimilarity(text_tfidf)
+    print(sim_index[text_tfidf[0]])
+    print(list(enumerate(sim_index[text_tfidf[0]])))
+    sort_sims = sorted(enumerate(sim_index[text_tfidf[0]]), key=lambda item: item[1], reverse=True)
+    print(sort_sims[0:10])
+    for j in [i[0] for i in sort_sims[0:10]]:
+        print(j, "\n", nltk.corpus[j])
+
+
+
     # 利用 gensim 库构建文档-词项矩阵
     # todo:改成词向量
     # dictionary = corpora.Dictionary(spilted_words)
