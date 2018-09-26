@@ -38,7 +38,7 @@ def to_hbase():
     sort_sims = sorted(enumerate(sim_index[text_tfidf[0]]), key=lambda item: item[1], reverse=True)
     print(sort_sims[0:10])
     for j in [i[0] for i in sort_sims[0:10]]:
-        print(j, "\n", nltk.corpus[j])
+        print(j, "\n", title_list[j])
 
 
 
