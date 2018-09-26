@@ -38,9 +38,9 @@ def to_hbase():
     text_tfidf = tfidf_model[text]
     # 构建 LSI 模型，计算文本相似度
     sim_index = MatrixSimilarity(text_tfidf)
-    print(sim_index[text_tfidf[0]])
-    print(list(enumerate(sim_index[text_tfidf[0]])))
-    sort_sims = sorted(enumerate(sim_index[text_tfidf[0]]), key=lambda item: item[1], reverse=True)
+    print(sim_index[text_tfidf[-1]])
+    print(list(enumerate(sim_index[text_tfidf[-1]])))
+    sort_sims = sorted(enumerate(sim_index[text_tfidf[-1]]), key=lambda item: item[1], reverse=True)
     print(sort_sims[0:10])
     for j in [i[0] for i in sort_sims[0:10]]:
         print(j, "\n", title_list[j])
