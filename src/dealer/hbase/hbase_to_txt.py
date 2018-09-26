@@ -3,14 +3,10 @@
 # Created by weixiong
 import json
 
-import gensim
 import happybase
 import jieba
-import nltk
 from gensim import corpora, models
-from gensim.matutils import corpus2dense
 from gensim.similarities import MatrixSimilarity
-from nltk.cluster import KMeansClusterer
 
 
 def to_hbase():
@@ -18,6 +14,8 @@ def to_hbase():
     connection.open()
     table = connection.table('testtable')
     title_list = []
+
+    # 提取标题列表
     for key, data in table.scan():
         jdata = json.loads(data[b'cf1:'].decode(encoding='utf-8'))
         split_word(jdata["content"])
@@ -25,8 +23,12 @@ def to_hbase():
             table.delete(key)
             print("bad title del...")
         else:
-            title_list.append(jdata['title'])
+            title_list.append(jdata['content'])
+
+    # 分词，停用词
     spilted_words = split_word(title_list)
+
+    # 计算 TF-IDF 矩阵
     dictionary = corpora.Dictionary(spilted_words)
     text = [dictionary.doc2bow(words) for words in spilted_words]
     tfidf_model = models.TfidfModel(text)
@@ -40,8 +42,6 @@ def to_hbase():
     for j in [i[0] for i in sort_sims[0:10]]:
         print(j, "\n", title_list[j])
 
-
-
     # 利用 gensim 库构建文档-词项矩阵
     # todo:改成词向量
     # dictionary = corpora.Dictionary(spilted_words)
@@ -51,7 +51,6 @@ def to_hbase():
     # km.cluster(dtm_matrix)
     # for i in dtm_matrix:
     #     print(i, km.classify(i))
-
 
 
 def split_word(titles):
