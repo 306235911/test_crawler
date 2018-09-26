@@ -22,6 +22,9 @@ def to_hbase():
         if "<h1 " in jdata['title']:
             table.delete(key)
             print("bad title del...")
+        elif "路透仅提供中文标题" in jdata["content"] or "路透中文快讯将暂不做进一步报导" in jdata["content"]:
+            table.delete(key)
+            print("bad content del...")
         else:
             title_list.append(jdata['content'])
 
