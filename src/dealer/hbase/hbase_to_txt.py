@@ -6,7 +6,8 @@ import json
 import happybase
 import jieba
 from gensim import corpora, models
-from gensim.similarities import MatrixSimilarity
+from gensim.similarities import MatrixSimilarity, Similarity
+from gensim.test.utils import get_tmpfile, common_dictionary
 
 
 def to_hbase():
@@ -37,7 +38,11 @@ def to_hbase():
     tfidf_model = models.TfidfModel(text)
     text_tfidf = tfidf_model[text]
     # 构建 LSI 模型，计算文本相似度
-    sim_index = MatrixSimilarity(text_tfidf)
+    # todo:Similarity -> MatrixSimilarity
+    index_tmpfile = get_tmpfile("index")
+    sim_index = Similarity(index_tmpfile, text_tfidf, num_features=len(common_dictionary))
+
+    # sim_index = MatrixSimilarity(text_tfidf)
     print(sim_index[text_tfidf[-1]])
     print(list(enumerate(sim_index[text_tfidf[-1]])))
     sort_sims = sorted(enumerate(sim_index[text_tfidf[-1]]), key=lambda item: item[1], reverse=True)
@@ -45,15 +50,7 @@ def to_hbase():
     for j in [i[0] for i in sort_sims[0:10]]:
         print(j, "\n", title_list[j])
 
-    # 利用 gensim 库构建文档-词项矩阵
-    # todo:改成词向量
-    # dictionary = corpora.Dictionary(spilted_words)
-    # word_count = [dictionary.doc2bow(text) for text in spilted_words]
-    # dtm_matrix = corpus2dense(word_count, len(dictionary))
-    # km = KMeansClusterer(num_means=3, distance=nltk.cluster.util.euclidean_distance)
-    # km.cluster(dtm_matrix)
-    # for i in dtm_matrix:
-    #     print(i, km.classify(i))
+
 
 
 def split_word(titles):
