@@ -28,7 +28,7 @@ def to_hbase():
             print("bad content del...")
         else:
             title_list.append(jdata['content'])
-
+    print("content length: %s" % len(title_list))
     # 分词，停用词
     spilted_words = split_word(title_list)
 
