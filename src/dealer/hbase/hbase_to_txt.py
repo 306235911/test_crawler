@@ -39,10 +39,11 @@ def to_hbase():
     text_tfidf = tfidf_model[text]
     # 构建 LSI 模型，计算文本相似度
     # todo:Similarity -> MatrixSimilarity
-    # index_tmpfile = get_tmpfile("index")
-    sim_index = Similarity(text_tfidf, common_corpus, num_features=len(common_dictionary))
+    # Similarity 用于从文件中读取索引，因此既然这里已经把content读到ram，可以直接用 MatrixSimilarity
+    index_tmpfile = get_tmpfile("index")
+    # sim_index = Similarity(text_tfidf, common_corpus, num_features=len(common_dictionary))
 
-    # sim_index = MatrixSimilarity(text_tfidf)
+    sim_index = MatrixSimilarity(text_tfidf)
     print(sim_index[text_tfidf[-1]])
     print(list(enumerate(sim_index[text_tfidf[-1]])))
     sort_sims = sorted(enumerate(sim_index[text_tfidf[-1]]), key=lambda item: item[1], reverse=True)
