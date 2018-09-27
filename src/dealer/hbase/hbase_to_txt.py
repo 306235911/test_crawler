@@ -7,7 +7,7 @@ import happybase
 import jieba
 from gensim import corpora, models
 from gensim.similarities import MatrixSimilarity, Similarity
-from gensim.test.utils import get_tmpfile, common_dictionary
+from gensim.test.utils import get_tmpfile, common_dictionary, common_corpus
 
 
 def to_hbase():
@@ -39,8 +39,8 @@ def to_hbase():
     text_tfidf = tfidf_model[text]
     # 构建 LSI 模型，计算文本相似度
     # todo:Similarity -> MatrixSimilarity
-    index_tmpfile = get_tmpfile("index")
-    sim_index = Similarity(index_tmpfile, text_tfidf, num_features=len(common_dictionary))
+    # index_tmpfile = get_tmpfile("index")
+    sim_index = Similarity(text_tfidf, common_corpus, num_features=len(common_dictionary))
 
     # sim_index = MatrixSimilarity(text_tfidf)
     print(sim_index[text_tfidf[-1]])
@@ -49,8 +49,6 @@ def to_hbase():
     print(sort_sims[0:10])
     for j in [i[0] for i in sort_sims[0:10]]:
         print(j, "\n", title_list[j])
-
-
 
 
 def split_word(titles):
