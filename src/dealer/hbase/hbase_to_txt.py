@@ -40,7 +40,7 @@ def to_hbase():
     # 构建 LSI 模型，计算文本相似度
     # todo:Similarity -> MatrixSimilarity
     # Similarity 用于从文件中读取索引，因此既然这里已经把content读到ram，可以直接用 MatrixSimilarity
-    index_tmpfile = get_tmpfile("index")
+    # index_tmpfile = get_tmpfile("index")
     # sim_index = Similarity(text_tfidf, common_corpus, num_features=len(common_dictionary))
 
     sim_index = MatrixSimilarity(text_tfidf)
